@@ -6,13 +6,13 @@ public class Waybill {
     private int repairsId;
     private int equipmentNumber;
     private int cost;
-    private GregorianCalendar dateIn;
+    private GregorianCalendar receivingDate;
 
-    public Waybill(int repairsId, int equipmentNumber, int cost, GregorianCalendar dateIn) {
+    public Waybill(int repairsId, int equipmentNumber, int cost, GregorianCalendar receivingDate) {
         this.repairsId = repairsId;
         this.equipmentNumber = equipmentNumber;
         this.cost = cost;
-        this.dateIn = dateIn;
+        this.receivingDate = receivingDate;
     }
 
 

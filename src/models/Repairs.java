@@ -7,11 +7,11 @@ public class Repairs {
     private GregorianCalendar dateRepairs;
     private String type;
     private int term;
-    private String nameOut;
-    private String numberOut;
-    private String nameIn;
-    private String numberIn;
+    private String nameTake;
+    private int numberTake;
+    private String nameGive;
+    private int numberGive;
     private String nameFix;
-    private String numberFix;
+    private int numberFix;
     private String positionFix;
 }

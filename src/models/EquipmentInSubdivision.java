@@ -1,8 +1,9 @@
 package models;
-
-import sun.java2d.loops.GeneralRenderer;
-
 import java.util.GregorianCalendar;
+/*
+показывает в каком подразделении находилась указываемая техника
+в определенный момент времени
+ */
 
 public class EquipmentInSubdivision {
     private int subdivisionId;

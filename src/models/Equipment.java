@@ -14,4 +14,26 @@ public class Equipment {
         this.yearIssue = yearIssue;
         this.subdivisionId = subdivisionId;
     }
+
+    public Equipment(){}
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setYearIssue(int yearIssue) {
+        this.yearIssue = yearIssue;
+    }
+
+    public void setSubdivisionId(int subdivisionId) {
+        this.subdivisionId = subdivisionId;
+    }
 }

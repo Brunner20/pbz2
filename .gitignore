@@ -1,2 +1,5 @@
 # Project exclude paths
 /out/
+# JetBrains Rider
+.idea/
+*.sln.iml
