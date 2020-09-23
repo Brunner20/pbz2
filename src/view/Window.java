@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import view.MainWindow;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Window extends Application {
 
@@ -15,12 +16,12 @@ public class Window extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws SQLException  {
 
 
-        MainWindow window =new MainWindow();
-        GridPane pane1= window.create();
-        Scene scene =new Scene(pane1,800,500);
+            EmployeeWindow window = new EmployeeWindow();
+
+        Scene scene =new Scene(window.getAnchorPane(),1200,700);
         primaryStage.setScene(scene);
         primaryStage.show();
 

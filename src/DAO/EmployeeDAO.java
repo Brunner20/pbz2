@@ -22,16 +22,16 @@ public class EmployeeDAO {
 
     //найти  всех сотридников
     public ObservableList<Employee> findAllEmployee() throws SQLException {
-        String query ="SELECT id,age,name,birth_year, sex, position FROM Employee;" ;
+        String query ="SELECT * FROM Employee;" ;
         ResultSet set= util.dbExecuteQuery(query);
         return getListFromSet(set);
 
     }
 
     //найти сотридников по полу и возрасту
-    public ObservableList<Employee> findEmployeeBySexAndAge(String sex, int age) throws SQLException {
+    public ObservableList<Employee> findEmployeeBySexAndAge(String gender, int age) throws SQLException {
         String query ="SELECT name,birth_year FROM Employee" +
-                        " WHERE sex =  "+ sex +
+                        " WHERE sex =  "+ gender +
                         " and age =" + age + ";" ;
         ResultSet set= util.dbExecuteQuery(query);
         return getListFromSet(set);
@@ -49,11 +49,11 @@ public class EmployeeDAO {
 
 
     //добавление сотрудника
-    public  void  insertIntoTable(int age, String name, int birthYear, String sex, int subdivisionId,
+    public  void  insertIntoTable(int age, String name, int birthYear, String gender, int subdivisionId,
                                   String position, Date startDate, Date endDate) throws SQLException {
 
         String query = "INSERT INTO Employee " +
-                "values (sequence_employee.nextval,"+age+","+name+","+birthYear+","+sex+","+subdivisionId+","+
+                "values (sequence_employee.nextval,"+age+","+name+","+birthYear+","+gender+","+subdivisionId+","+
                 position+","+startDate+","+endDate+");";
 
         util.dbUpdate(query);
@@ -90,7 +90,7 @@ public class EmployeeDAO {
             employee.setBirthYear(set.getInt("birth_year"));
             employee.setName(set.getString("name"));
             employee.setPosition(set.getString("position"));
-            employee.setSex(set.getString("sex"));
+            employee.setGender(set.getString("gender"));
             employee.setSubdivisionId(set.getInt("subdivision_id"));
             employee.setStartDate((GregorianCalendar) set.getObject("start_date"));//сработает ли?
             employee.setEndDate((GregorianCalendar) set.getObject("start_date"));//сработает ли?

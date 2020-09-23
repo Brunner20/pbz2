@@ -7,19 +7,19 @@ public class Employee {
     private int age;
     private String name;
     private int birthYear;
-    private String sex;
+    private String gender;
     private int subdivisionId;
     private String position;
     private GregorianCalendar startDate;
     private GregorianCalendar endDate;
 
-    public Employee(int id, int age, String name, int birthYear, String sex, int subdivisionId,
+    public Employee(int id, int age, String name, int birthYear, String gender, int subdivisionId,
                     String position, GregorianCalendar startDate, GregorianCalendar endDate) {
         this.id = id;
         this.age = age;
         this.name = name;
         this.birthYear = birthYear;
-        this.sex = sex;
+        this.gender = gender;
         this.subdivisionId = subdivisionId;
         this.position = position;
         this.startDate = startDate;
@@ -46,8 +46,8 @@ public class Employee {
         this.birthYear = birthYear;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public void setSubdivisionId(int subdivisionId) {
