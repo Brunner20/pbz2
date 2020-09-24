@@ -5,23 +5,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Employee;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class EmployeeDAO {
 
     private  final DBUtil util;
+    private ResultSet set;
 
     public  EmployeeDAO(){
         util= new DBUtil();
+        set = null;
     }
 
 
 
     //найти  всех сотридников
     public ObservableList<Employee> findAllEmployee() throws SQLException {
+
         String query ="SELECT * FROM Employee;" ;
         ResultSet set= util.dbExecuteQuery(query);
         return getListFromSet(set);
@@ -30,49 +32,64 @@ public class EmployeeDAO {
 
     //найти сотридников по полу и возрасту
     public ObservableList<Employee> findEmployeeBySexAndAge(String gender, int age) throws SQLException {
-        String query ="SELECT name,birth_year FROM Employee" +
-                        " WHERE sex =  "+ gender +
-                        " and age =" + age + ";" ;
-        ResultSet set= util.dbExecuteQuery(query);
+        String query ="SELECT * FROM Employee" +
+                        " WHERE gender =  '"+ gender +
+                        "' and age =" + age + ";" ;
+        set= util.dbExecuteQuery(query);
         return getListFromSet(set);
 
     }
 
     //найти сотрудников по подразделению
     public ObservableList<Employee> findEmployeeBySubdivision(int subdivisionId) throws SQLException {
-        String query ="SELECT name,birth_year FROM Employee" +
+        String query ="SELECT * FROM employee" +
                 " WHERE subdivision_id =  "+ subdivisionId + ";" ;
-        ResultSet set= util.dbExecuteQuery(query);
+         set= util.dbExecuteQuery(query);
         return getListFromSet(set);
 
     }
 
 
     //добавление сотрудника
-    public  void  insertIntoTable(int age, String name, int birthYear, String gender, int subdivisionId,
-                                  String position, Date startDate, Date endDate) throws SQLException {
+    public  void insertIntoDB(int age, String name, int birthYear, String gender, int subdivisionId,
+                              String position, Date startDate, Date endDate) throws SQLException {
 
-        String query = "INSERT INTO Employee " +
-                "values (sequence_employee.nextval,"+age+","+name+","+birthYear+","+gender+","+subdivisionId+","+
-                position+","+startDate+","+endDate+");";
+        String query = "INSERT INTO employee(age,name,birth_year,gender,subdivision_id,position,start_date,end_date) " +
+                "values ( "+age+", ' "+name+"',"+birthYear+", '"+gender+"', "+subdivisionId+", '"+
+                position+"', '"+startDate+"', '"+endDate+"');";
 
         util.dbUpdate(query);
 
     }
 
     //обновление информации о сотруднике
-    public void updateTable(int id, int age) throws SQLException {
-        String query ="UPDATE Employee" +
-                " SET age =  "+ age +
-                " WHERE id =" + id + ";" ;
+    public void updateDB(int id, int age,String position,Date date) throws SQLException {
+        int counter =0 ;
 
+        String query ="UPDATE Employee \n" ;
+            if(age!=0) {
+                counter++;
+                query+="SET age = "+age+"\n ";
+            }
+            if(position != null) {
+                if(counter>0) query+=" , ";
+                else query+=" SET ";
+                counter++;
+                query+= "  position = '"+position+"' \n";
+            }
+            if(date != null)  {
+                if(counter>0) query+=" , ";
+                else query+=" SET ";
+                query+= "  end_date = '"+date+"' \n";}
+
+        query+= " WHERE id =" + id + ";" ;
         util.dbUpdate(query);
 
     }
 
     //удаление сотрудника
-    public void deleteInTable(int id ) throws SQLException {
-        String query ="DELETE Employee" +
+    public void deleteInDB(int id ) throws SQLException {
+        String query ="DELETE FROM employee" +
                 " WHERE id =" + id + ";" ;
 
 
@@ -83,6 +100,7 @@ public class EmployeeDAO {
 
         ObservableList<Employee> employees =FXCollections.observableArrayList();
 
+
         while (set.next()){
             Employee employee =new Employee();
             employee.setAge(set.getInt("age"));
@@ -92,10 +110,14 @@ public class EmployeeDAO {
             employee.setPosition(set.getString("position"));
             employee.setGender(set.getString("gender"));
             employee.setSubdivisionId(set.getInt("subdivision_id"));
-            employee.setStartDate((GregorianCalendar) set.getObject("start_date"));//сработает ли?
-            employee.setEndDate((GregorianCalendar) set.getObject("start_date"));//сработает ли?
+            employee.setStartDate(set.getDate("start_date"));
+            employee.setEndDate(set.getDate("end_date"));
             employees.add(employee);
         }
+
+
         return employees;
     }
+
+
 }

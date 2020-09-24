@@ -16,17 +16,16 @@ public class Window extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws SQLException  {
+     public void start(Stage primaryStage) throws IOException, SQLException {
 
 
-            EmployeeWindow window = new EmployeeWindow();
-
+        EmployeeWindow window = new EmployeeWindow();
         Scene scene =new Scene(window.getAnchorPane(),1200,700);
         primaryStage.setScene(scene);
         primaryStage.show();
 
+
+
     }
-
-
 
 }

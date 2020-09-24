@@ -29,7 +29,7 @@ public class EquipmentDAO {
     //найти  количество техники по ее название и названию подразделения
     public int findCountEquipmentByNameAndSubdivision(String equipmentName, String subdivisionName) throws SQLException {
         String query ="SELECT count(id) FROM Equipment as eq left join Subdivision as sub on subdivision_id=sub.id"+
-                "where eq.name= "+equipmentName+"and sub.name="+subdivisionName+";";
+                "where eq.name= '"+equipmentName+"' and sub.name= '"+subdivisionName+"';";
         ResultSet set= util.dbExecuteQuery(query);
         return set.getInt(0);
 
@@ -39,8 +39,8 @@ public class EquipmentDAO {
     //обновление информации(названия) об оргтехнике
     public void updateTable(int number, String name ) throws SQLException {
         String query ="UPDATE Equipment" +
-                " SET name =  "+ name +
-                " WHERE number =" + number + ";" ;
+                " SET name =  ' "+ name +
+                "' WHERE number =" + number + ";" ;
 
         util.dbUpdate(query);
 
@@ -59,7 +59,7 @@ public class EquipmentDAO {
     public  void  insertIntoTable( String name, String model, int year, int subId) throws SQLException {
 
         String query = "INSERT INTO Equipment (number,name,model,year_issue, subdivision_id)" +
-                "values (sequence_employee.nextval,"+name+","+model+","+year+","+subId+");";
+                "values (sequence_employee.nextval, '"+name+" ', '"+model+"' ,"+year+","+subId+");";
 
         util.dbUpdate(query);
 

@@ -1,7 +1,10 @@
 package view;
 
 import DAO.EmployeeDAO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -9,26 +12,31 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.Employee;
 
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Date;
 
 public class EmployeeWindow {
 
-      private TableView<Employee> table;
-      private final EmployeeDAO employeeDAO;
+      private final TableView<Employee> table;
+      private  EmployeeDAO employeeDAO ;
 
       private AnchorPane anchorPane;
+      private TextField idUpd;
       private TextField name;
       private TextField age;
+      private TextField ageUpd;
       private TextField birth;
       private TextField gender;
       private TextField subdivision;
       private TextField position;
+      private TextField positionUpd;
       private DatePicker start;
       private DatePicker end;
+      private DatePicker endUpd;
       private Button add;
       private Button update;
 
@@ -57,19 +65,16 @@ public class EmployeeWindow {
 
           if(employees.isEmpty()){
 
-                  Label deleted=new Label("значения не найдены");
-                  GridPane grid =new GridPane();
-                  grid.setHgap(10);
-                  grid.add(deleted,0,0);
-                  Stage dialogWindow =new Stage();
-                  dialogWindow.setScene(new Scene(grid,300,150));
-                  dialogWindow.show();
+              Label deleted=new Label("введены некорректные данные");
+              StackPane secondaryLayout = new StackPane();
+              secondaryLayout.getChildren().add(deleted);
+              Scene secondScene = new Scene(secondaryLayout, 260, 130);
+              Stage newWindow = new Stage();
+              newWindow.setScene(secondScene);
+              newWindow.show();
 
           }
-
-          table.setItems(employees);
-
-
+          else table.setItems(employees);
       }
 
       private void configureWin(){
@@ -77,6 +82,12 @@ public class EmployeeWindow {
           configureAddEmployeePane();
           configureTable();
           configureSearch();
+          configureUpdate();
+          searchByAgeAndGender.setOnAction(searchAge);
+          searchBySubdivision.setOnAction(searchSub);
+          add.setOnAction(addEmp);
+          delete.setOnAction(deleteEmp);
+          update.setOnAction(updateEmp);
       }
       private void configureAddEmployeePane(){
 
@@ -102,9 +113,7 @@ public class EmployeeWindow {
           end = new DatePicker();
 
           add = new Button("добавить");
-          update = new Button("обновить выделенного");
           add.setPrefSize(109,48);
-          update.setPrefSize(109,48);
 
           gridForAddEmp.add(nameLa,0,0,1,1);
           gridForAddEmp.add(name,1,0,1,1);
@@ -123,7 +132,6 @@ public class EmployeeWindow {
           gridForAddEmp.add(endLa,0,7,1,1);
           gridForAddEmp.add(end,1,7,1,1);
           gridForAddEmp.add(add,0,9,1,1);
-          gridForAddEmp.add(update,1,9,1,1);
           gridForAddEmp.setVgap(5);
 
           vert.setPrefSize(20,350);
@@ -180,8 +188,8 @@ public class EmployeeWindow {
           genderForSearch = new TextField();
           id = new TextField();
 
-          searchByAgeAndGender = new Button("поиск ");
-          searchBySubdivision = new Button("поиск ");
+          searchByAgeAndGender = new Button("поиск по полу и возр.");
+          searchBySubdivision = new Button("поиск по подр.");
           subdivisionForSearch.setPromptText("подразделение");
           ageForSearch.setPromptText("возраст");
           genderForSearch.setPromptText("пол");
@@ -210,9 +218,163 @@ public class EmployeeWindow {
           AnchorPane.setLeftAnchor(pane,500.0);
           anchorPane.getChildren().addAll(pane);
 
-
-
-
-
     }
+
+    private void configureUpdate(){
+
+          GridPane pane = new GridPane();
+        Label idLa = new Label("номер работника");
+        Label ageLa = new Label("новый возраст");
+        Label positionLa = new Label("новая должность");
+        Label endLa = new Label("дата окончания работы");
+
+        update = new Button("Обновить");
+        update.setPrefSize(109,48);
+        idUpd = new TextField();
+        ageUpd = new TextField();
+        positionUpd = new TextField();
+        endUpd = new DatePicker();
+
+        idUpd.setPromptText("обязательное поле");
+        ageUpd.setPromptText("необязательное поле");
+        positionUpd.setPromptText("необязательное поле");
+        endUpd.setPromptText("необязательное поле");
+
+        pane.add(idLa,0,0,1,1);
+        pane.add(ageLa,0,1,1,1);
+        pane.add(positionLa,0,2,1,1);
+        pane.add(endLa,0,3,1,1);
+        pane.add(update,0,4,1,1);
+        pane.add(idUpd,1,0,1,1);
+        pane.add(ageUpd,1,1,1,1);
+        pane.add(positionUpd,1,2,1,1);
+        pane.add(endUpd,1,3,1,1);
+
+        pane.setHgap(5);
+        pane.setVgap(10);
+
+        AnchorPane.setTopAnchor(pane,400.0);
+        AnchorPane.setLeftAnchor(pane,20.0);
+        anchorPane.getChildren().addAll(pane);
+    }
+
+    private final EventHandler<ActionEvent> searchSub = e -> {
+
+        try {
+
+            if(subdivisionForSearch.getText().isEmpty()  ) createTable(employeeDAO.findAllEmployee());
+            else createTable(employeeDAO.findEmployeeBySubdivision(Integer.parseInt(subdivisionForSearch.getText())));
+        } catch (SQLException  throwables ) {
+            throwables.printStackTrace();
+
+        }
+        catch (NumberFormatException ex){
+            //если была введена не цифра
+            createTable(FXCollections.observableArrayList());
+        }
+
+
+    };
+    private final EventHandler<ActionEvent> searchAge = e -> {
+
+        try {
+            if(genderForSearch.getText().isEmpty() && ageForSearch.getText().isEmpty())
+                createTable(employeeDAO.findAllEmployee());
+
+            else createTable(employeeDAO.findEmployeeBySexAndAge(genderForSearch.getText()
+                                                                ,Integer.parseInt(ageForSearch.getText())));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        catch (NumberFormatException ex){
+
+            createTable(FXCollections.observableArrayList());
+        }
+
+
+    };
+    private final EventHandler<ActionEvent> addEmp = e -> {
+
+        try {
+
+            if(Integer.getInteger(age.getText())<0) throw  new NumberFormatException();
+            Employee employee =new Employee( Integer.parseInt(age.getText()),
+                                name.getText(),
+                                Integer.parseInt(birth.getText()),
+                                gender.getText(),
+                                Integer.parseInt(subdivision.getText()),
+                                position.getText(),
+                                Date.valueOf(start.getValue()),
+                                Date.valueOf(end.getValue()));
+            employeeDAO.insertIntoDB(
+                                employee.getAge(),
+                                employee.getName(),
+                                employee.getBirthYear(),
+                                employee.getGender(),
+                                employee.getSubdivisionId(),
+                                employee.getPosition(),
+                                employee.getStartDate(),
+                                employee.getEndDate());
+
+            createTable(employeeDAO.findAllEmployee());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+
+        }
+        catch (NumberFormatException ex){
+            createTable(FXCollections.observableArrayList());
+        }
+
+
+    };
+    private final EventHandler<ActionEvent> deleteEmp = e -> {
+
+        try {
+            if(!id.getText().isEmpty()) employeeDAO.deleteInDB(Integer.parseInt(id.getText()));
+                createTable(employeeDAO.findAllEmployee());
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        catch (NumberFormatException ex){
+
+            createTable(FXCollections.observableArrayList());
+        }
+
+
+    };
+
+    private final EventHandler<ActionEvent> updateEmp = e -> {
+            int id ;
+            int age =0;
+            String position =null;
+            Date end = null;
+        try {
+
+            if(idUpd.getText().isEmpty()){ throw  new NumberFormatException();}
+            else id = Integer.parseInt(idUpd.getText());
+            if(!ageUpd.getText().isEmpty())
+                age =Integer.parseInt(ageUpd.getText());
+            if(!positionUpd.getText().isEmpty())
+                position =positionUpd.getText();
+            if(endUpd.getValue()!=null)
+                end = Date.valueOf(endUpd.getValue());
+
+            employeeDAO.updateDB(id,age, position,end );
+            createTable(employeeDAO.findAllEmployee());
+
+        }
+        catch (SQLException throwables) {
+            throwables.printStackTrace();
+            createTable(FXCollections.observableArrayList());
+
+        }
+        catch (NumberFormatException ex){
+
+            createTable(FXCollections.observableArrayList());
+        }
+
+
+    };
+
 }

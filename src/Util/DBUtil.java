@@ -1,5 +1,7 @@
 package Util;
 
+import com.sun.rowset.CachedRowSetImpl;
+
 import java.sql.*;
 
 public class DBUtil {
@@ -9,14 +11,13 @@ public class DBUtil {
     private void dbConnect() {
 
         try{
-            String url = "jdbc:mysql://localhost:3306/mydb?serverTimezone=Europe/Moscow&useSSL=false";
+            String url = "jdbc:mysql://localhost:3306/repair?serverTimezone=Europe/Moscow&useSSL=false";
             String username = "root";
             String password = "1234";
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try {
                 connection= DriverManager.getConnection(url, username, password);
                 System.out.println("Connection to  DB succesfull");
-                Statement statement= connection.createStatement();
                 }
             catch(Exception  ex){
                 System.out.println("Connection failed...");
@@ -38,11 +39,32 @@ public class DBUtil {
     //select from table
     public ResultSet dbExecuteQuery(String query) throws SQLException {
 
-        dbConnect();
-        Statement statement = connection.createStatement();
-        ResultSet set = statement.executeQuery(query);
-        dbDisconnect();
-        return set;
+        CachedRowSetImpl cachedRowSet = null;
+        Statement statement =null;
+        ResultSet set = null;
+
+        try {
+            dbConnect();
+            cachedRowSet = new CachedRowSetImpl();
+            statement = connection.createStatement();
+            set = statement.executeQuery(query);
+            cachedRowSet.populate(set);
+        }
+        catch (SQLException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        }
+        finally {
+            if (set != null) {
+                set.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            dbDisconnect();
+        }
+
+        return cachedRowSet;
     }
 
     //update,insert,delete in table
