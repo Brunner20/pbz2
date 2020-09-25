@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Equipment;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -20,7 +21,7 @@ public class EquipmentDAO {
 
     //найти  всю технику
     public ObservableList<Equipment> findAllEquipment() throws SQLException {
-        String query ="SELECT * FROM Equipment;" ;
+        String query ="SELECT * FROM equipment;" ;
         ResultSet set= util.dbExecuteQuery(query);
         return getListFromSet(set);
 
@@ -56,10 +57,10 @@ public class EquipmentDAO {
     }
 
     //добавление техники
-    public  void  insertIntoTable( String name, String model, int year, int subId) throws SQLException {
+    public  void  insertIntoTable(String name, String model, int year, int subId, Date date) throws SQLException {
 
-        String query = "INSERT INTO Equipment (number,name,model,year_issue, subdivision_id)" +
-                "values (sequence_employee.nextval, '"+name+" ', '"+model+"' ,"+year+","+subId+");";
+        String query = "INSERT INTO Equipment (name,model,year_issue, subdivision_id,date_in)" +
+                "values ( '"+name+" ', '"+model+"' ,"+year+","+subId+",'"+date+"');";
 
         util.dbUpdate(query);
 

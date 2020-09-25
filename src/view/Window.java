@@ -16,11 +16,10 @@ public class Window extends Application {
     }
 
     @Override
-     public void start(Stage primaryStage) throws IOException, SQLException {
+     public void start(Stage primaryStage)  {
 
-
-        SubdivisionWindow window = new SubdivisionWindow();
-        Scene scene =new Scene(window.getAnchorPane(),1200,700);
+        MainWindow window = new MainWindow();
+        Scene scene =new Scene(window.getAnchorPane(),350,400);
         primaryStage.setScene(scene);
         primaryStage.show();
 

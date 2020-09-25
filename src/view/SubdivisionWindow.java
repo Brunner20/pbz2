@@ -1,7 +1,6 @@
 package view;
 
 import DAO.SubdivisionDAO;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,27 +56,12 @@ public class SubdivisionWindow {
 
         tableSub.setPrefSize(380,300);
         AnchorPane.setTopAnchor(tableSub,150.0);
-        AnchorPane.setLeftAnchor(tableSub,200.0);
+        AnchorPane.setLeftAnchor(tableSub,100.0);
         anchorPane.getChildren().addAll(tableSub);
     }
 
     private void createTable(ObservableList<Subdivision> subdivisions)  {
-
-
-        if(subdivisions.isEmpty()){
-
-            Label deleted=new Label("введены некорректные данные");
-            StackPane secondaryLayout = new StackPane();
-            secondaryLayout.getChildren().add(deleted);
-            Scene secondScene = new Scene(secondaryLayout, 260, 130);
-            Stage newWindow = new Stage();
-            newWindow.setScene(secondScene);
-            newWindow.show();
-
-        }
-        else  tableSub.setItems(subdivisions);
-
-
+          tableSub.setItems(subdivisions);
     }
 
     private void configureAddAndSearchPane(){
@@ -98,7 +82,7 @@ public class SubdivisionWindow {
         pane.setVgap(10);
 
         AnchorPane.setTopAnchor(pane,20.0);
-        AnchorPane.setLeftAnchor(pane,200.0);
+        AnchorPane.setLeftAnchor(pane,100.0);
         anchorPane.getChildren().addAll(pane);
 
     }
@@ -113,7 +97,7 @@ public class SubdivisionWindow {
 
         }
         catch (NumberFormatException ex){
-            createTable(FXCollections.observableArrayList());
+            excep();
         }
 
 
@@ -129,11 +113,20 @@ public class SubdivisionWindow {
 
         }
         catch (NumberFormatException ex){
-            createTable(FXCollections.observableArrayList());
+            excep();
         }
 
 
     };
 
+    private void excep(){
+        Label deleted=new Label("введены некорректные данные");
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().add(deleted);
+        Scene secondScene = new Scene(secondaryLayout, 260, 130);
+        Stage newWindow = new Stage();
+        newWindow.setScene(secondScene);
+        newWindow.show();
+    }
 
 }

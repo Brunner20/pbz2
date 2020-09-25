@@ -1,7 +1,6 @@
 package view;
 
 import DAO.EmployeeDAO;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -59,20 +58,7 @@ public class EmployeeWindow {
     public AnchorPane getAnchorPane() { return anchorPane; }
 
     private void createTable(ObservableList<Employee> employees)  {
-
-
-        if(employees.isEmpty()){
-
-            Label deleted=new Label("введены некорректные данные");
-            StackPane secondaryLayout = new StackPane();
-            secondaryLayout.getChildren().add(deleted);
-            Scene secondScene = new Scene(secondaryLayout, 260, 130);
-            Stage newWindow = new Stage();
-            newWindow.setScene(secondScene);
-            newWindow.show();
-
-        }
-        else table.setItems(employees);
+        table.setItems(employees);
       }
 
       private void configureWin(){
@@ -92,15 +78,7 @@ public class EmployeeWindow {
           GridPane gridForAddEmp = new GridPane();
           Separator vert =new Separator(Orientation.VERTICAL);
           Separator hor =new Separator(Orientation.HORIZONTAL);
-          Label nameLa = new Label("ФИО");
-          Label ageLa = new Label("возраст");
-          Label birthLa =  new Label("год рождения");
-          Label genderLa = new Label("пол");
-          Label subdivisionLa = new Label("номер подразделения");
-          Label positionLa = new Label("должность");
-          Label startLa = new Label("дата начала работы");
-          Label endLa = new Label("дата окончания работы");
-         
+
           name =new TextField();
           age = new TextField();
           birth = new TextField();
@@ -110,25 +88,26 @@ public class EmployeeWindow {
           start = new DatePicker();
           end = new DatePicker();
 
+          name.setPromptText("ФИО");
+          age.setPromptText("возраст");
+          birth.setPromptText("год рождения");
+          gender.setPromptText("пол");
+          subdivision.setPromptText("номер подразделения");
+          position.setPromptText("должнось");
+          start.setPromptText("дата начала работы");
+          end.setPromptText("дата окончания работы");
           add = new Button("добавить");
           add.setPrefSize(109,48);
 
-          gridForAddEmp.add(nameLa,0,0,1,1);
-          gridForAddEmp.add(name,1,0,1,1);
-          gridForAddEmp.add(ageLa,0,1,1,1);
-          gridForAddEmp.add(age,1,1,1,1);
-          gridForAddEmp.add(birthLa,0,2,1,1);
-          gridForAddEmp.add(birth,1,2,1,1);
-          gridForAddEmp.add(genderLa,0,3,1,1);
-          gridForAddEmp.add(gender,1,3,1,1);
-          gridForAddEmp.add(subdivisionLa,0,4,1,1);
-          gridForAddEmp.add(subdivision,1,4,1,1);
-          gridForAddEmp.add(positionLa,0,5,1,1);
-          gridForAddEmp.add(position,1,5,1,1);
-          gridForAddEmp.add(startLa,0,6,1,1);
-          gridForAddEmp.add(start,1,6,1,1);
-          gridForAddEmp.add(endLa,0,7,1,1);
-          gridForAddEmp.add(end,1,7,1,1);
+
+          gridForAddEmp.add(name,0,0,1,1);
+          gridForAddEmp.add(age,0,1,1,1);
+          gridForAddEmp.add(birth,0,2,1,1);
+          gridForAddEmp.add(gender,0,3,1,1);
+          gridForAddEmp.add(subdivision,0,4,1,1);
+          gridForAddEmp.add(position,0,5,1,1);
+          gridForAddEmp.add(start,0,6,1,1);
+          gridForAddEmp.add(end,0,7,1,1);
           gridForAddEmp.add(add,0,9,1,1);
           gridForAddEmp.setHgap(5);
           gridForAddEmp.setVgap(10);
@@ -222,10 +201,7 @@ public class EmployeeWindow {
     private void configureUpdate(){
 
           GridPane pane = new GridPane();
-        Label idLa = new Label("номер работника");
-        Label ageLa = new Label("новый возраст");
-        Label positionLa = new Label("новая должность");
-        Label endLa = new Label("дата окончания работы");
+
 
         update = new Button("Обновить");
         update.setPrefSize(109,48);
@@ -234,20 +210,16 @@ public class EmployeeWindow {
         positionUpd = new TextField();
         endUpd = new DatePicker();
 
-        idUpd.setPromptText("обязательное поле");
-        ageUpd.setPromptText("необязательное поле");
-        positionUpd.setPromptText("необязательное поле");
-        endUpd.setPromptText("необязательное поле");
+        idUpd.setPromptText("номер работника");
+        ageUpd.setPromptText("новый возраст");
+        positionUpd.setPromptText("новая должность");
+        endUpd.setPromptText("дата окончания работы");
 
-        pane.add(idLa,0,0,1,1);
-        pane.add(ageLa,0,1,1,1);
-        pane.add(positionLa,0,2,1,1);
-        pane.add(endLa,0,3,1,1);
         pane.add(update,0,4,1,1);
-        pane.add(idUpd,1,0,1,1);
-        pane.add(ageUpd,1,1,1,1);
-        pane.add(positionUpd,1,2,1,1);
-        pane.add(endUpd,1,3,1,1);
+        pane.add(idUpd,0,0,1,1);
+        pane.add(ageUpd,0,1,1,1);
+        pane.add(positionUpd,0,2,1,1);
+        pane.add(endUpd,0,3,1,1);
 
         pane.setHgap(5);
         pane.setVgap(10);
@@ -261,7 +233,7 @@ public class EmployeeWindow {
 
         try {
 
-            if(subdivisionForSearch.getText().isEmpty()  ) createTable(employeeDAO.findAllEmployee());
+            if(subdivisionForSearch.getText().isEmpty()  ) excep();
             else createTable(employeeDAO.findEmployeeBySubdivision(Integer.parseInt(subdivisionForSearch.getText())));
         } catch (SQLException  throwables ) {
             throwables.printStackTrace();
@@ -269,7 +241,7 @@ public class EmployeeWindow {
         }
         catch (NumberFormatException ex){
             //если была введена не цифра
-            createTable(FXCollections.observableArrayList());
+            excep();
         }
 
 
@@ -278,7 +250,7 @@ public class EmployeeWindow {
 
         try {
             if(genderForSearch.getText().isEmpty() && ageForSearch.getText().isEmpty())
-                createTable(employeeDAO.findAllEmployee());
+                excep();
 
             else createTable(employeeDAO.findEmployeeBySexAndAge(genderForSearch.getText()
                                                                 ,Integer.parseInt(ageForSearch.getText())));
@@ -287,7 +259,7 @@ public class EmployeeWindow {
         }
         catch (NumberFormatException ex){
 
-            createTable(FXCollections.observableArrayList());
+            excep();
         }
 
 
@@ -321,7 +293,7 @@ public class EmployeeWindow {
 
         }
         catch (NumberFormatException ex){
-            createTable(FXCollections.observableArrayList());
+            excep();
         }
 
 
@@ -337,7 +309,7 @@ public class EmployeeWindow {
         }
         catch (NumberFormatException ex){
 
-            createTable(FXCollections.observableArrayList());
+            excep();
         }
 
 
@@ -365,15 +337,23 @@ public class EmployeeWindow {
         }
         catch (SQLException throwables) {
             throwables.printStackTrace();
-            createTable(FXCollections.observableArrayList());
+            excep();
 
         }
         catch (NumberFormatException ex){
 
-            createTable(FXCollections.observableArrayList());
+            excep();
         }
 
 
     };
-
+    private void excep(){
+        Label deleted=new Label("введены некорректные данные");
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().add(deleted);
+        Scene secondScene = new Scene(secondaryLayout, 260, 130);
+        Stage newWindow = new Stage();
+        newWindow.setScene(secondScene);
+        newWindow.show();
+    }
 }

@@ -1,19 +1,16 @@
 package models;
 
+import java.sql.Date;
+
 public class Equipment {
     private int number;
     private String name;
     private String model;
     private int yearIssue;
     private int subdivisionId;
+    private Date dateIn;
 
-    public Equipment(int number, String name, String model, int yearIssue, int subdivisionId) {
-        this.number = number;
-        this.name = name;
-        this.model = model;
-        this.yearIssue = yearIssue;
-        this.subdivisionId = subdivisionId;
-    }
+
 
     public Equipment(){}
 
@@ -36,4 +33,6 @@ public class Equipment {
     public void setSubdivisionId(int subdivisionId) {
         this.subdivisionId = subdivisionId;
     }
+
+    public void setDateIn(Date dateIn) { this.dateIn = dateIn; }
 }
