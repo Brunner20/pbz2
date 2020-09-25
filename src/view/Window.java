@@ -19,7 +19,7 @@ public class Window extends Application {
      public void start(Stage primaryStage) throws IOException, SQLException {
 
 
-        EmployeeWindow window = new EmployeeWindow();
+        SubdivisionWindow window = new SubdivisionWindow();
         Scene scene =new Scene(window.getAnchorPane(),1200,700);
         primaryStage.setScene(scene);
         primaryStage.show();

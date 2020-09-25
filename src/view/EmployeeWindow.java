@@ -56,25 +56,23 @@ public class EmployeeWindow {
 
       }
 
-    public AnchorPane getAnchorPane() {
-        return anchorPane;
-    }
+    public AnchorPane getAnchorPane() { return anchorPane; }
 
     private void createTable(ObservableList<Employee> employees)  {
 
 
-          if(employees.isEmpty()){
+        if(employees.isEmpty()){
 
-              Label deleted=new Label("введены некорректные данные");
-              StackPane secondaryLayout = new StackPane();
-              secondaryLayout.getChildren().add(deleted);
-              Scene secondScene = new Scene(secondaryLayout, 260, 130);
-              Stage newWindow = new Stage();
-              newWindow.setScene(secondScene);
-              newWindow.show();
+            Label deleted=new Label("введены некорректные данные");
+            StackPane secondaryLayout = new StackPane();
+            secondaryLayout.getChildren().add(deleted);
+            Scene secondScene = new Scene(secondaryLayout, 260, 130);
+            Stage newWindow = new Stage();
+            newWindow.setScene(secondScene);
+            newWindow.show();
 
-          }
-          else table.setItems(employees);
+        }
+        else table.setItems(employees);
       }
 
       private void configureWin(){
@@ -132,7 +130,8 @@ public class EmployeeWindow {
           gridForAddEmp.add(endLa,0,7,1,1);
           gridForAddEmp.add(end,1,7,1,1);
           gridForAddEmp.add(add,0,9,1,1);
-          gridForAddEmp.setVgap(5);
+          gridForAddEmp.setHgap(5);
+          gridForAddEmp.setVgap(10);
 
           vert.setPrefSize(20,350);
           hor.setPrefSize(920,5);
@@ -253,7 +252,7 @@ public class EmployeeWindow {
         pane.setHgap(5);
         pane.setVgap(10);
 
-        AnchorPane.setTopAnchor(pane,400.0);
+        AnchorPane.setTopAnchor(pane,420.0);
         AnchorPane.setLeftAnchor(pane,20.0);
         anchorPane.getChildren().addAll(pane);
     }

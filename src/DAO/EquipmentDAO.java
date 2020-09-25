@@ -48,7 +48,7 @@ public class EquipmentDAO {
 
     //удаление техники
     public void deleteInTable(int number ) throws SQLException {
-        String query ="DELETE Equipment" +
+        String query ="DELETE FROM Equipment" +
                 " WHERE number =" + number + ";" ;
 
 
