@@ -37,7 +37,7 @@ public class SubdivisionDAO {
     }
 
     //добавление техники
-    public  void  insertIntoTable(   String name) throws SQLException {
+    public  void  insertIntoTable(String name) throws SQLException {
 
         String query = "INSERT INTO subdivision (name)" +
                 "values ('"+name+"') ;";

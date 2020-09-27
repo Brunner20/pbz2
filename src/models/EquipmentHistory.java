@@ -34,4 +34,6 @@ public class EquipmentHistory {
     public void setDateOut(Date dateOut) {
         this.dateOut = dateOut;
     }
+
+    public int getId() { return id; }
 }

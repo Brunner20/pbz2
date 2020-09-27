@@ -27,6 +27,15 @@ public class EquipmentDAO {
 
     }
 
+    public Integer findLastEquipmentId() throws SQLException {
+        String query ="SELECT number FROM equipment/n "
+                +"ORDER BY number desc\n" +
+                "LIMIT 1 ;";
+        ResultSet set= util.dbExecuteQuery(query);
+        return set.getInt("number");
+
+    }
+
     //найти  количество техники по ее название и названию подразделения
     public int findCountEquipmentByNameAndSubdivision(String equipmentName, String subdivisionName) throws SQLException {
         String query ="SELECT count(id) FROM Equipment as eq left join Subdivision as sub on subdivision_id=sub.id"+
@@ -76,6 +85,7 @@ public class EquipmentDAO {
             equipment.setName(set.getString("name"));
             equipment.setYearIssue(set.getInt("year_issue"));
             equipment.setSubdivisionId(set.getInt("subdivision_id"));
+            equipment.setDateIn(set.getDate("date_in"));
             employees.add(equipment);
         }
         return employees;

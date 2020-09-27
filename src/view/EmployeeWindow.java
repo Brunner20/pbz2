@@ -1,6 +1,7 @@
 package view;
 
 import DAO.EmployeeDAO;
+import controller.Controller;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +22,7 @@ import java.sql.Date;
 public class EmployeeWindow {
 
       private final TableView<Employee> table;
-      private  EmployeeDAO employeeDAO ;
+      private Controller controller;
 
       private AnchorPane anchorPane;
       private TextField idUpd;
@@ -49,9 +50,9 @@ public class EmployeeWindow {
 
       public EmployeeWindow() throws SQLException {
           table = new TableView<>();
-          employeeDAO= new EmployeeDAO();
+          controller = new Controller();
           configureWin();
-          createTable(employeeDAO.findAllEmployee());
+          createTable(controller.getAllEmployee());
 
       }
 
@@ -234,7 +235,7 @@ public class EmployeeWindow {
         try {
 
             if(subdivisionForSearch.getText().isEmpty()  ) excep();
-            else createTable(employeeDAO.findEmployeeBySubdivision(Integer.parseInt(subdivisionForSearch.getText())));
+            else createTable(controller.getEmployeeBySubdivision(Integer.parseInt(subdivisionForSearch.getText())));
         } catch (SQLException  throwables ) {
             throwables.printStackTrace();
 
@@ -252,7 +253,7 @@ public class EmployeeWindow {
             if(genderForSearch.getText().isEmpty() && ageForSearch.getText().isEmpty())
                 excep();
 
-            else createTable(employeeDAO.findEmployeeBySexAndAge(genderForSearch.getText()
+            else createTable(controller.getEmployeeByGenderAndAge(genderForSearch.getText()
                                                                 ,Integer.parseInt(ageForSearch.getText())));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -277,7 +278,7 @@ public class EmployeeWindow {
                                 position.getText(),
                                 Date.valueOf(start.getValue()),
                                 Date.valueOf(end.getValue()));
-            employeeDAO.insertIntoDB(
+            controller.addEmployee(
                                 employee.getAge(),
                                 employee.getName(),
                                 employee.getBirthYear(),
@@ -287,7 +288,7 @@ public class EmployeeWindow {
                                 employee.getStartDate(),
                                 employee.getEndDate());
 
-            createTable(employeeDAO.findAllEmployee());
+            createTable(controller.getAllEmployee());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
 
@@ -301,8 +302,8 @@ public class EmployeeWindow {
     private final EventHandler<ActionEvent> deleteEmp = e -> {
 
         try {
-            if(!id.getText().isEmpty()) employeeDAO.deleteInDB(Integer.parseInt(id.getText()));
-                createTable(employeeDAO.findAllEmployee());
+            if(!id.getText().isEmpty()) controller.deleteEmployee(Integer.parseInt(id.getText()));
+                createTable(controller.getAllEmployee());
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -331,8 +332,8 @@ public class EmployeeWindow {
             if(endUpd.getValue()!=null)
                 end = Date.valueOf(endUpd.getValue());
 
-            employeeDAO.updateDB(id,age, position,end );
-            createTable(employeeDAO.findAllEmployee());
+            controller.updateEmployee(id,age, position,end );
+            createTable(controller.getAllEmployee());
 
         }
         catch (SQLException throwables) {

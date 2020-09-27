@@ -1,6 +1,7 @@
 package view;
 
 import DAO.EquipmentDAO;
+import controller.Controller;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.Equipment;
+import models.EquipmentHistory;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ import java.sql.SQLException;
 public class EquipmentWindow {
 
     private final TableView<Equipment> tableEquip;
-    private EquipmentDAO equipmentDAO ;
+    private Controller controller;
 
     private AnchorPane anchorPane;
     private TextField numberForUpd;
@@ -41,9 +43,9 @@ public class EquipmentWindow {
 
     public EquipmentWindow() throws SQLException {
         tableEquip = new TableView<>();
-        equipmentDAO = new EquipmentDAO();
+        controller = new Controller();
         configureWin();
-        createTable(equipmentDAO.findAllEquipment());
+        createTable(controller.getAllEquipment());
     }
 
     public AnchorPane getAnchorPane() { return anchorPane; }
@@ -84,6 +86,7 @@ public class EquipmentWindow {
 
         transfer = new Button("переместить технику в другой отдел");
         transfer.setPrefSize(300,50);
+        transfer.setOnAction(transWin);
         AnchorPane.setTopAnchor(transfer,550.0);
         AnchorPane.setLeftAnchor(transfer,500.0);
 
@@ -174,6 +177,8 @@ public class EquipmentWindow {
     }
 
     private void createTable(ObservableList<Equipment> equipment)  {
+        for(Equipment equipment1 : equipment)
+            System.out.println(equipment1);
         tableEquip.setItems(equipment);
 
     }
@@ -193,14 +198,16 @@ public class EquipmentWindow {
 
         try {
 
-
-            equipmentDAO.insertIntoTable(name.getText(),
+            controller.addEquipment(name.getText(),
                                         model.getText(),
                                         Integer.parseInt(yearIssue.getText()),
                                         Integer.parseInt(subdivision.getText()),
                                         Date.valueOf( dateIn.getValue()));
 
-            createTable(equipmentDAO.findAllEquipment());
+            createTable(controller.getAllEquipment());
+            controller.addEquipmentHistory(Date.valueOf( dateIn.getValue()),
+                                            Integer.parseInt(subdivision.getText()),
+                                            controller.getLastEquipmentId());
 
 
         } catch (SQLException throwables) {
@@ -216,8 +223,8 @@ public class EquipmentWindow {
     private final EventHandler<ActionEvent> delEq = e -> {
 
         try {
-            equipmentDAO.deleteInTable(Integer.parseInt(numberForDelete.getText()));
-            createTable(equipmentDAO.findAllEquipment());
+            controller.deleteEquipment(Integer.parseInt(numberForDelete.getText()));
+            createTable(controller.getAllEquipment());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
 
@@ -242,8 +249,8 @@ public class EquipmentWindow {
             else throw  new NumberFormatException();
 
 
-            equipmentDAO.updateTable(id, name );
-            createTable(equipmentDAO.findAllEquipment());
+            controller.updateEquipment(id, name );
+            createTable(controller.getAllEquipment());
 
         }
         catch (SQLException throwables) {
@@ -257,7 +264,17 @@ public class EquipmentWindow {
 
 
     };
+    private EventHandler<ActionEvent> transWin = e -> {
 
+
+            EquipmentTransferWind subdivisionWindow =new EquipmentTransferWind();
+            Scene scene =new Scene(subdivisionWindow.getAnchorPane(),300,400);
+            Stage newWindow = new Stage();
+            newWindow.setScene(scene);
+            newWindow.show();
+
+
+    };
 
 
 }

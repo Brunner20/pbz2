@@ -3,7 +3,6 @@ package DAO;
 import Util.DBUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import models.Equipment;
 import models.EquipmentHistory;
 
 import java.sql.Date;
@@ -28,11 +27,19 @@ public class EquipmentHistoryDAO {
     }
 
 
+    public void updateEquipmentHistory(Date endDate, int equipment) throws SQLException {
+        String query ="UPDATE  equipment_history" +
+                "SET  date_out = '"+endDate+"'"+
+                "WHERE equipment_id =" + equipment;
+        util.dbExecuteQuery(query);
 
-    public  void  insertIntoTable(Date dateIn, Date dateOut, int subdivisionId, int equipmentId) throws SQLException {
 
-        String query = "INSERT INTO equipment_history (subdivision_id,equipment_id,date_in, date_out)" +
-                "values ( "+subdivisionId+" , "+equipmentId+" ,'"+dateIn+"','"+dateOut+"');";
+    }
+
+    public  void  insertIntoTable(Date dateIn,  int subdivisionId, int equipmentId) throws SQLException {
+
+        String query = "INSERT INTO equipment_history (subdivision_id,equipment_id,date_in)" +
+                "values ( "+subdivisionId+" , "+equipmentId+" ,'"+dateIn+"');";
 
         util.dbUpdate(query);
 
@@ -47,7 +54,6 @@ public class EquipmentHistoryDAO {
             equipmentHistory.setEquipmentId(set.getInt("equipment_id"));
             equipmentHistory.setDateIn(set.getDate("date_in"));
             equipmentHistory.setDateOut(set.getDate("date_out"));
-
             equipmentHistories.add(equipmentHistory);
         }
         return equipmentHistories;

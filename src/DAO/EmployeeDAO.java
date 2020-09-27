@@ -31,7 +31,7 @@ public class EmployeeDAO {
     }
 
     //найти сотридников по полу и возрасту
-    public ObservableList<Employee> findEmployeeBySexAndAge(String gender, int age) throws SQLException {
+    public ObservableList<Employee> findEmployeeByGenderAndAge(String gender, int age) throws SQLException {
         String query ="SELECT * FROM Employee" +
                         " WHERE gender =  '"+ gender +
                         "' and age =" + age + ";" ;

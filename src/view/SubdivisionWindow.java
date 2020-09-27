@@ -1,6 +1,7 @@
 package view;
 
 import DAO.SubdivisionDAO;
+import controller.Controller;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
 public class SubdivisionWindow {
 
     private final TableView<Subdivision> tableSub;
-    private SubdivisionDAO subdivisionDAO ;
+    private Controller controller;
 
     private AnchorPane anchorPane;
     private TextField id;
@@ -28,9 +29,9 @@ public class SubdivisionWindow {
 
     public SubdivisionWindow() throws SQLException {
         tableSub = new TableView<>();
-        subdivisionDAO= new SubdivisionDAO();
+        controller = new Controller();
         configureWin();
-        createTable(subdivisionDAO.findAllSubdivision());
+        createTable(controller.getAllSubdivision());
     }
 
     public AnchorPane getAnchorPane() { return anchorPane; }
@@ -90,8 +91,8 @@ public class SubdivisionWindow {
     private final EventHandler<ActionEvent> addSub = e -> {
 
         try {
-            subdivisionDAO.insertIntoTable(name.getText());
-            createTable(subdivisionDAO.findAllSubdivision());
+            controller.addSubdivision(name.getText());
+            createTable(controller.getAllSubdivision());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
 
@@ -106,8 +107,8 @@ public class SubdivisionWindow {
     private final EventHandler<ActionEvent> delSub = e -> {
 
         try {
-            subdivisionDAO.deleteInTable(Integer.parseInt(id.getText()));
-            createTable(subdivisionDAO.findAllSubdivision());
+            controller.deleteSubdivision(Integer.parseInt(id.getText()));
+            createTable(controller.getAllSubdivision());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
 

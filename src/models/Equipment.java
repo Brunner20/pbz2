@@ -35,4 +35,6 @@ public class Equipment {
     }
 
     public void setDateIn(Date dateIn) { this.dateIn = dateIn; }
+
+
 }
