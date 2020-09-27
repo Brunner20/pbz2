@@ -15,7 +15,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.Equipment;
-import models.EquipmentHistory;
+
+//TODO добавить кнопку для поика техники по имени и подразделению
 
 import java.sql.Date;
 import java.sql.SQLException;

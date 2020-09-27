@@ -27,6 +27,18 @@ public class SubdivisionDAO {
     }
 
 
+
+    public  String findSubName() throws SQLException {
+        String query ="select name from (select name,max(count) from (select subdivision.name, count(repairs.id) as count from repairs \n" +
+                "\tleft join equipment on repairs.equipment_number =equipment.number \n" +
+                "\tleft join subdivision on subdivision_id = subdivision.id\n" +
+                "group by subdivision.name) as tab) as t" ;
+        ResultSet set= util.dbExecuteQuery(query);
+        return set.getString("name");
+
+    }
+
+
     //удаление подразделения
     public void deleteInTable(int number ) throws SQLException {
         String query ="DELETE FROM subdivision" +

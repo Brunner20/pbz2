@@ -1,11 +1,11 @@
 package models;
 
 import java.sql.Date;
-import java.util.GregorianCalendar;
 
 public class Waybill {
     private int id;
-    private int equipmentNumber;
+    private int repairNumber;
+    private String detail;
     private int cost;
     private Date receivingDate;
 
@@ -13,8 +13,12 @@ public class Waybill {
         this.id = id;
     }
 
-    public void setEquipmentNumber(int equipmentNumber) {
-        this.equipmentNumber = equipmentNumber;
+    public void setRepairNumber(int repairNumber) {
+        this.repairNumber = repairNumber;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public void setCost(int cost) {

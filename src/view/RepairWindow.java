@@ -19,12 +19,15 @@ import models.Repairs;
 import java.sql.Date;
 import java.sql.SQLException;
 
+//TODO добавить логику на кнопку waybillBtn которая выводит наклыдные к данному ремонту
+
 public class RepairWindow {
 
     private  TableView<Repairs> table;
     private Controller controller;
 
     private AnchorPane anchorPane;
+    private TextField id;
     private TextField type;
     private TextField term;
     private TextField nameTake;
@@ -34,10 +37,11 @@ public class RepairWindow {
     private TextField nameFix;
     private TextField numberFix;
     private TextField positionFix;
-    private TextField waybill;
+    private TextField equipment;
     private DatePicker dateRepairs;
 
     private Button add;
+    private Button waybillBtn;
 
 
     public RepairWindow() throws SQLException {
@@ -78,8 +82,8 @@ public class RepairWindow {
         nameFix = new TextField();
         numberFix = new TextField();
         positionFix = new TextField();
-        waybill =new TextField();
         dateRepairs =new DatePicker();
+        equipment= new TextField();
 
 
         type.setPromptText("вид ремонта");
@@ -91,8 +95,8 @@ public class RepairWindow {
         nameFix.setPromptText("ФИО сотрудника, который ремонтирует");
         numberFix.setPromptText("номер сотрудника, который ремонтирует");
         positionFix.setPromptText("должность сотрудника, который ремонтирует");
-        waybill.setPromptText("номер накладой");
         dateRepairs.setPromptText("дата ремонта");
+        equipment.setPromptText("номер техники");
 
         add = new Button("добавить");
         add.setPrefSize(109,48);
@@ -108,7 +112,7 @@ public class RepairWindow {
         pane.add(nameFix,0,7,1,1);
         pane.add(numberFix,0,8,1,1);
         pane.add(positionFix,0,9,1,1);
-        pane.add(waybill,0,11,1,1);
+        pane.add(equipment,0,10,1,1);
         pane.add(add,0,12,1,1);
         pane.setHgap(5);
         pane.setVgap(10);
@@ -154,13 +158,30 @@ public class RepairWindow {
                 numberTakeColumn,nameFixColumn,positionFixColumn);
 
 
+
+
         table.setPrefSize(720,340);
-        AnchorPane.setTopAnchor(table,100.0);
+        AnchorPane.setTopAnchor(table,150.0);
         AnchorPane.setLeftAnchor(table,450.0);
         anchorPane.getChildren().addAll(table);
     }
 
     private void configureSearch(){
+
+        GridPane pane =new GridPane();
+        waybillBtn= new Button("получить накладную");
+        waybillBtn.setPrefSize(180,48);
+        id = new TextField();
+        id.setPromptText("номер ремнота");
+
+        pane.add(id,0,0,1,1);
+        pane.add(waybillBtn,0,1,1,1);
+
+
+        AnchorPane.setTopAnchor(pane,50.0);
+        AnchorPane.setLeftAnchor(pane,450.0);
+        anchorPane.getChildren().addAll(pane);
+
     }
 
 
@@ -169,7 +190,7 @@ public class RepairWindow {
 
         Date date;
         String typeS,nameTakeS,nameGiveS,nameFixS,positionFixS;
-        int termI,numberTakeI,numberGiveI,numberFixI,waybillI;
+        int termI,numberTakeI,numberGiveI,numberFixI,equip;
 
         try {
 
@@ -193,11 +214,12 @@ public class RepairWindow {
             else numberFixI =Integer.parseInt(numberFix.getText());
             if(positionFix.getText()==null)throw  new NumberFormatException();
             else positionFixS = positionFix.getText();
-            if(waybill.getText().isEmpty())throw  new NumberFormatException();
-            else waybillI = Integer.parseInt(waybill.getText());
+            if(equipment.getText().isEmpty())throw  new NumberFormatException();
+            else equip =Integer.parseInt(equipment.getText());
 
-            controller.addRepairs(date,typeS,termI,nameTakeS,numberTakeI,nameGiveS,
-                    numberGiveI,nameFixS,numberFixI,positionFixS,waybillI);
+
+            controller.addRepairs(equip,date,typeS,termI,nameTakeS,numberTakeI,nameGiveS,
+                    numberGiveI,nameFixS,numberFixI,positionFixS);
 
             createTable(controller.getAllRepairs());
         } catch (SQLException throwables) {

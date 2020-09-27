@@ -25,14 +25,14 @@ public class RepairDAO {
 
     }
 
-    public  void insertIntoDB(Date dateRepairs, String type, int term, String nameTake,
+    public  void insertIntoDB(int equipment,Date dateRepairs, String type, int term, String nameTake,
                               int numberTake, String nameGive, int numberGive,String nameFix,
-                              int numberFix,String positionFix,int waybillId) throws SQLException {
+                              int numberFix,String positionFix) throws SQLException {
 
-        String query = "INSERT INTO repairs(date_repairs,type,term,name_take,number_take,name_give,number_give,name_fix,number_fix," +
+        String query = "INSERT INTO repairs(equipment_number,date_repairs,type,term,name_take,number_take,name_give,number_give,name_fix,number_fix," +
                 "position_fix) " +
-                "values ( "+dateRepairs+", ' "+type+"',"+term+", '"+nameTake+"', "+numberTake+", '"+
-                nameGive+"', "+numberGive+", '"+nameFix+"', "+numberFix+", '"+positionFix+"', "+waybillId+");";
+                "values ( "+equipment+",'"+dateRepairs+"', ' "+type+"',"+term+", '"+nameTake+"', "+numberTake+", '"+
+                nameGive+"', "+numberGive+", '"+nameFix+"', "+numberFix+", '"+positionFix+"');";
 
         util.dbUpdate(query);
 

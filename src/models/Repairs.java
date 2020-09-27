@@ -5,6 +5,7 @@ import java.sql.Date;
 
 public class Repairs {
     private int id;
+    private int equipmentId;
     private Date dateRepairs;
     private String type;
     private int term;
@@ -15,7 +16,6 @@ public class Repairs {
     private String nameFix;
     private int numberFix;
     private String positionFix;
-    private int waybillId;
 
     public void setId(int id) { this.id = id;}
 
@@ -39,5 +39,5 @@ public class Repairs {
 
     public void setPositionFix(String positionFix) { this.positionFix = positionFix; }
 
-    public void setWaybillId(int waybillId) { this.waybillId = waybillId; }
+    public void setEquipmentId(int equipmentId) { this.equipmentId = equipmentId; }
 }

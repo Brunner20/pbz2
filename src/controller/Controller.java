@@ -14,6 +14,7 @@ public class Controller {
     EquipmentHistoryDAO equipmentHistoryDAO;
     SubdivisionDAO subdivisionDAO;
     RepairDAO repairDAO;
+    WaybillDAO waybillDAO;
 
     public Controller(){
         employeeDAO =new EmployeeDAO();
@@ -21,6 +22,7 @@ public class Controller {
         equipmentHistoryDAO = new EquipmentHistoryDAO();
         subdivisionDAO =new SubdivisionDAO();
         repairDAO =new RepairDAO();
+        waybillDAO =new WaybillDAO();
     }
 
     public ObservableList<Employee> getAllEmployee() throws SQLException {
@@ -33,6 +35,8 @@ public class Controller {
         return subdivisionDAO.findAllSubdivision(); }
     public ObservableList<Repairs> getAllRepairs() throws SQLException {
         return repairDAO.findAllRepairs(); }
+    public ObservableList<Waybill> getAllWaybills() throws SQLException {
+        return waybillDAO.findAllWaybills(); }
 
 
     public ObservableList<Employee> getEmployeeByGenderAndAge(String gender,int age) throws SQLException {
@@ -78,12 +82,22 @@ public class Controller {
     public void deleteSubdivision(int number) throws SQLException {
         subdivisionDAO.deleteInTable(number);
     }
+    public String getSubdivisionWithMaxRepair() throws SQLException {
+       return subdivisionDAO.findSubName();
+    }
 
-    public void addRepairs(Date dateRepairs, String type, int term, String nameTake,
+    public void addRepairs(int equipment,Date dateRepairs, String type, int term, String nameTake,
                            int numberTake, String nameGive, int numberGive,String nameFix,
-                           int numberFix,String positionFix,int waybillId) throws SQLException {
-        repairDAO.insertIntoDB(dateRepairs, type, term,
+                           int numberFix,String positionFix) throws SQLException {
+        repairDAO.insertIntoDB(equipment,dateRepairs, type, term,
                 nameTake, numberTake, nameGive, numberGive,
-                nameFix, numberFix, positionFix, waybillId);
+                nameFix, numberFix, positionFix);
+    }
+
+    public ObservableList<Waybill> getWaybillByRepair(int repair) throws SQLException {
+        return waybillDAO.findByRepair(repair);
+    }
+    public void addWaybill(int repair, String detail, int cost, Date date) throws SQLException {
+        waybillDAO.insertItoDB(repair, detail, cost, date);
     }
 }

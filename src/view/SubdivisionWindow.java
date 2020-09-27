@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.Subdivision;
 
+//TODO добавит кнопку для поиска подразделения с самым большим количеством деталей для ремонта
 import java.sql.SQLException;
 
 public class SubdivisionWindow {
