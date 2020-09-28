@@ -27,8 +27,8 @@ public class WaybillDAO {
     }
 
     public ObservableList<Waybill> findByRepair(int repair) throws SQLException {
-        String query ="SELECT * FROM waybill" +
-                "where repairs_id = "+repair ;
+        String query ="SELECT * FROM waybill " +
+                "where repairs_id = "+repair+";" ;
         ResultSet set= util.dbExecuteQuery(query);
         return getListFromSet(set);
     }
@@ -36,7 +36,7 @@ public class WaybillDAO {
     public  void insertItoDB(int repair, String detail, int cost, Date date) throws SQLException {
         String query ="insert into waybill(repairs_id,detail,cost,receiving_date)" +
                 "values( "+repair+", '"+detail+"', "+cost+", '"+date+"');" ;
-        ResultSet set= util.dbExecuteQuery(query);
+        util.dbUpdate(query);
 
     }
 

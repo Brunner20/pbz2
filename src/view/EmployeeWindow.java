@@ -269,7 +269,7 @@ public class EmployeeWindow {
 
         try {
 
-            if(Integer.getInteger(age.getText())<0) throw  new NumberFormatException();
+
             Employee employee =new Employee( Integer.parseInt(age.getText()),
                                 name.getText(),
                                 Integer.parseInt(birth.getText()),

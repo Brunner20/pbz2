@@ -54,9 +54,9 @@ public class WaybillTable {
 
         table.getColumns().addAll(idColumn,detailColumn,costColumn,dateColumn);
 
-        table.setPrefSize(720,340);
+        table.setPrefSize(600,340);
         AnchorPane.setTopAnchor(table,200.0);
-        AnchorPane.setLeftAnchor(table,450.0);
+        AnchorPane.setLeftAnchor(table,20.0);
         anchorPane.getChildren().addAll(table);
     }
 

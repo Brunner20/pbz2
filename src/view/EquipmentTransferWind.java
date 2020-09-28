@@ -77,6 +77,7 @@ public class EquipmentTransferWind {
 
             TransferDoc doc = new TransferDoc(eqId,subId,date);
             controller.addEquipmentHistory(doc.getTransferDate(),doc.getSubdivisionId(),doc.getEquipmentId());
+            controller.updateEquipmentSub(doc.getEquipmentId(), doc.getSubdivisionId());
             controller.updateEquipmentHistory(doc.getTransferDate(),doc.getEquipmentId());
 
         }

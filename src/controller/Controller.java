@@ -71,6 +71,9 @@ public class Controller {
     public Integer getCountEquipment(String equipmentName, int subdivision) throws SQLException {
         return  equipmentDAO.findCountEquipmentByNameAndSubdivision(equipmentName, subdivision);
     }
+    public void updateEquipmentSub(int id, int subdivision) throws SQLException {
+          equipmentDAO.updateSub(id, subdivision);
+    }
 
     public void addEquipmentHistory(Date dateIn,int subdivisionId, int equipmentId) throws SQLException {
         equipmentHistoryDAO.insertIntoTable(dateIn, subdivisionId, equipmentId);

@@ -43,6 +43,7 @@ public class WaybillWindow {
     public AnchorPane getAnchorPane() { return anchorPane; }
 
     private void createTable(ObservableList<Waybill> waybills)  {
+
         table.setItems(waybills);
     }
 

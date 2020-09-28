@@ -28,21 +28,22 @@ public class EquipmentDAO {
     }
 
     public Integer findLastEquipmentId() throws SQLException {
-        String query ="SELECT number FROM equipment/n "
+        String query ="SELECT number FROM equipment\n "
                 +"ORDER BY number desc\n" +
                 "LIMIT 1 ;";
         ResultSet set= util.dbExecuteQuery(query);
+        set.first();
         return set.getInt("number");
 
     }
 
     //найти  количество техники по ее название и названию подразделения
     public int findCountEquipmentByNameAndSubdivision(String equipmentName, int subdivision) throws SQLException {
-        String query ="SELECT count(id) FROM Equipment as eq left join Subdivision as sub on subdivision_id=sub.id"+
-                "where eq.name= '"+equipmentName+"' and sub.id= "+subdivision+";";
+        String query ="SELECT count(id) FROM equipment left join subdivision  on subdivision_id=subdivision.id "+
+                "where equipment.name= '"+equipmentName+" ' and subdivision.id= "+subdivision+";";
         ResultSet set= util.dbExecuteQuery(query);
         set.first();
-        return set.getInt(0);
+        return set.getInt("count(id)");
 
     }
 
@@ -54,6 +55,16 @@ public class EquipmentDAO {
                 "' WHERE number =" + number + ";" ;
 
         util.dbUpdate(query);
+
+    }
+
+
+    public void updateSub(int id, int sub) throws SQLException {
+        String query ="UPDATE  equipment " +
+                "SET  subdivision_id = "+sub+" "+
+                "WHERE number =" + id+";";
+        util.dbUpdate(query);
+
 
     }
 

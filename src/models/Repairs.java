@@ -40,4 +40,53 @@ public class Repairs {
     public void setPositionFix(String positionFix) { this.positionFix = positionFix; }
 
     public void setEquipmentId(int equipmentId) { this.equipmentId = equipmentId; }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public int getEquipmentId() {
+        return equipmentId;
+    }
+
+    public Date getDateRepairs() {
+        return dateRepairs;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getTerm() {
+        return term;
+    }
+
+    public String getNameTake() {
+        return nameTake;
+    }
+
+    public int getNumberTake() {
+        return numberTake;
+    }
+
+    public String getNameGive() {
+        return nameGive;
+    }
+
+    public int getNumberGive() {
+        return numberGive;
+    }
+
+    public String getNameFix() {
+        return nameFix;
+    }
+
+    public int getNumberFix() {
+        return numberFix;
+    }
+
+    public String getPositionFix() {
+        return positionFix;
+    }
 }

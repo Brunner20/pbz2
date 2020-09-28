@@ -36,5 +36,27 @@ public class Equipment {
 
     public void setDateIn(Date dateIn) { this.dateIn = dateIn; }
 
+    public String getName() {
+        return name;
+    }
 
+    public String getModel() {
+        return model;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public int getYearIssue() {
+        return yearIssue;
+    }
+
+    public int getSubdivisionId() {
+        return subdivisionId;
+    }
+
+    public Date getDateIn() {
+        return dateIn;
+    }
 }

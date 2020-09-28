@@ -70,7 +70,7 @@ public class EquipmentWindow {
         TableColumn<Equipment,String> modelColumn =new TableColumn<>("модель");
         TableColumn<Equipment,Integer> yearColumn = new TableColumn<>("год выпуска");
         TableColumn<Equipment,Integer> subdivisionColumn = new TableColumn<>("владеющее подразделение");
-        TableColumn<Equipment,Integer> dateInColumn = new TableColumn<>("дата,с которой устройство принадлежит подразделени.");
+        TableColumn<Equipment,Date> dateInColumn = new TableColumn<>("дата,с которой устройство принадлежит подразделени.");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
@@ -218,6 +218,7 @@ public class EquipmentWindow {
                                         Date.valueOf( dateIn.getValue()));
 
             createTable(controller.getAllEquipment());
+
             controller.addEquipmentHistory(Date.valueOf( dateIn.getValue()),
                                             Integer.parseInt(subdivision.getText()),
                                             controller.getLastEquipmentId());
@@ -285,7 +286,11 @@ public class EquipmentWindow {
             Stage newWindow = new Stage();
             newWindow.setScene(scene);
             newWindow.show();
-
+        try {
+            createTable(controller.getAllEquipment());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     };
 
@@ -299,7 +304,7 @@ public class EquipmentWindow {
             if(subdivisionSearch.getText().isEmpty()){ throw  new NumberFormatException();}
             else id = Integer.parseInt(subdivisionSearch.getText());
             if(nameSearch.getText().isEmpty())throw  new NumberFormatException();
-            else  name =nameUpd.getText();
+            else  name =nameSearch.getText();
 
 
 

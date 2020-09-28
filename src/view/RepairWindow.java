@@ -55,6 +55,7 @@ public class RepairWindow {
     public AnchorPane getAnchorPane() { return anchorPane; }
 
     private void createTable(ObservableList<Repairs> repairs)  {
+        //for (Repairs repairs1: repairs) System.out.println(repairs1.getNameFix());
         table.setItems(repairs);
     }
 
@@ -132,6 +133,7 @@ public class RepairWindow {
 
     }
     private  void configureTable(){
+        TableColumn<Repairs,Integer> idColumn = new TableColumn<>("номер ремонта");
         TableColumn<Repairs,Date> dateColumn = new TableColumn<>("дата ремонта");
         TableColumn<Repairs,String> typeColumn = new TableColumn<>("вид ремонта");
         TableColumn<Repairs,Integer> termColumn = new TableColumn<>("срок ремонта");
@@ -143,6 +145,7 @@ public class RepairWindow {
         TableColumn<Repairs, Integer> numberFixColumn = new TableColumn<>("номер сотрудника, который ремонтирует");
         TableColumn<Repairs, String> positionFixColumn = new TableColumn<>("должность сотрудника, который ремонтирует");
 
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateRepairs"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         termColumn.setCellValueFactory(new PropertyValueFactory<>("term"));
@@ -154,7 +157,7 @@ public class RepairWindow {
         numberFixColumn.setCellValueFactory(new PropertyValueFactory<>("numberFix"));
         positionFixColumn.setCellValueFactory(new PropertyValueFactory<>("positionFix"));
 
-        table.getColumns().addAll(dateColumn,typeColumn,termColumn,nameGiveColumn,numberGiveColumn,nameTakeColumn,
+        table.getColumns().addAll(idColumn,dateColumn,typeColumn,termColumn,nameGiveColumn,numberGiveColumn,nameTakeColumn,
                 numberTakeColumn,nameFixColumn,positionFixColumn);
         table.setPrefSize(720,340);
 
@@ -238,7 +241,7 @@ public class RepairWindow {
             else idIn = Integer.parseInt(id.getText());
 
             WaybillTable subdivisionWindow =new WaybillTable(controller.getWaybillByRepair(idIn));
-            Scene scene =new Scene(subdivisionWindow.getAnchorPane(),600,700);
+            Scene scene =new Scene(subdivisionWindow.getAnchorPane(),720,600);
             Stage newWindow = new Stage();
             newWindow.setScene(scene);
             newWindow.show();

@@ -17,15 +17,29 @@ public class Waybill {
         this.repairNumber = repairNumber;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setDetail(String detail) { this.detail = detail; }
+
+    public void setCost(int cost) { this.cost = cost; }
+
+    public void setReceivingDate(Date receivingDate) { this.receivingDate = receivingDate;}
+
+    public int getId() {
+        return id;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
+    public int getRepairNumber() {
+        return repairNumber;
     }
 
-    public void setReceivingDate(Date receivingDate) {
-        this.receivingDate = receivingDate;
+    public String getDetail() {
+        return detail;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public Date getReceivingDate() {
+        return receivingDate;
     }
 }

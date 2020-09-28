@@ -28,10 +28,10 @@ public class EquipmentHistoryDAO {
 
 
     public void updateEquipmentHistory(Date endDate, int equipment) throws SQLException {
-        String query ="UPDATE  equipment_history" +
-                "SET  date_out = '"+endDate+"'"+
-                "WHERE equipment_id =" + equipment;
-        util.dbExecuteQuery(query);
+        String query ="UPDATE  equipment_history " +
+                "SET  date_out = '"+endDate+"' "+
+                "WHERE equipment_id =" + equipment+";";
+        util.dbUpdate(query);
 
 
     }
