@@ -29,7 +29,6 @@ public class WaybillWindow {
     private DatePicker date;
     private TextField repair;
 
-
     private Button add;
 
 
@@ -151,6 +150,9 @@ public class WaybillWindow {
 
 
     };
+
+
+
     private void excep(){
         Label deleted=new Label("введены некорректные данные");
         StackPane secondaryLayout = new StackPane();

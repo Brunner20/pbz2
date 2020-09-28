@@ -1,6 +1,5 @@
 package view;
 
-import DAO.EquipmentDAO;
 import controller.Controller;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +15,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.Equipment;
 
-//TODO добавить кнопку для поика техники по имени и подразделению
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -35,12 +33,14 @@ public class EquipmentWindow {
     private TextField yearIssue;
     private TextField subdivision;
     private DatePicker dateIn;
+    private TextField subdivisionSearch;
+    private TextField nameSearch;
 
     private Button addBtn;
     private Button updateBtn;
     private Button deleteBtn;
     private Button transfer;
-
+    private Button search;
 
     public EquipmentWindow() throws SQLException {
         tableEquip = new TableView<>();
@@ -54,14 +54,14 @@ public class EquipmentWindow {
     private void configureWin(){
 
         anchorPane = new AnchorPane();
-        configureAddPane();
         configureTable();
         configureUpdateAndDelete();
+        configureAdd();
         addBtn.setOnAction(addEquip);
         updateBtn.setOnAction(updateEq);
         deleteBtn.setOnAction(delEq);
-
-
+        transfer.setOnAction(transWin);
+        search.setOnAction(searchHandler);
     }
     private  void configureTable(){
 
@@ -87,7 +87,7 @@ public class EquipmentWindow {
 
         transfer = new Button("переместить технику в другой отдел");
         transfer.setPrefSize(300,50);
-        transfer.setOnAction(transWin);
+
         AnchorPane.setTopAnchor(transfer,550.0);
         AnchorPane.setLeftAnchor(transfer,500.0);
 
@@ -97,7 +97,7 @@ public class EquipmentWindow {
         anchorPane.getChildren().addAll(tableEquip,transfer);
     }
 
-    private void configureAddPane(){
+    private void configureAdd(){
 
         GridPane gridForAdd = new GridPane();
         Separator vert =new Separator(Orientation.VERTICAL);
@@ -141,6 +141,9 @@ public class EquipmentWindow {
 
 
     }
+
+
+
     private void configureUpdateAndDelete(){
 
         GridPane pane= new GridPane();
@@ -148,26 +151,36 @@ public class EquipmentWindow {
         numberForUpd = new TextField();
         numberForDelete =new TextField();
         nameUpd =new TextField();
+        subdivisionSearch =new TextField();
+        nameSearch =new TextField();
 
+        subdivisionSearch.setPromptText("подразделение");
+        nameSearch.setPromptText("название");
         nameUpd.setPromptText("новое название");
         numberForUpd.setPromptText("номер техники для обновления");
         numberForDelete.setPromptText("номер техники для списания");
 
         updateBtn = new Button("обновить");
         deleteBtn = new Button("списать");
+        search = new Button("поиск");
 
 
         deleteBtn.setPrefSize(160,30);
         updateBtn.setPrefSize(160,30);
+        search.setPrefSize(160,30);
 
         GridPane.setHalignment(updateBtn, HPos.CENTER);
         GridPane.setHalignment(deleteBtn, HPos.CENTER);
+        GridPane.setHalignment(search,HPos.CENTER);
 
         pane.add(numberForUpd,0,0,1,1);
         pane.add(nameUpd,0,1,1,1);
         pane.add(updateBtn,0,2,1,1);
         pane.add(numberForDelete,1,0,1,1);
         pane.add(deleteBtn,1,2,1,1);
+        pane.add(nameSearch,2,0,1,1);
+        pane.add(subdivisionSearch,2,1,1,1);
+        pane.add(search,2,2,1,1);
         pane.setHgap(5);
         pane.setVgap(10);
 
@@ -178,8 +191,7 @@ public class EquipmentWindow {
     }
 
     private void createTable(ObservableList<Equipment> equipment)  {
-        for(Equipment equipment1 : equipment)
-            System.out.println(equipment1);
+
         tableEquip.setItems(equipment);
 
     }
@@ -239,7 +251,7 @@ public class EquipmentWindow {
 
     private final EventHandler<ActionEvent> updateEq = e -> {
         int id ;
-        String name =null;
+        String name;
 
         try {
 
@@ -273,6 +285,42 @@ public class EquipmentWindow {
             Stage newWindow = new Stage();
             newWindow.setScene(scene);
             newWindow.show();
+
+
+    };
+
+    private EventHandler<ActionEvent> searchHandler = e -> {
+
+        int id ;
+        String name;
+
+        try {
+
+            if(subdivisionSearch.getText().isEmpty()){ throw  new NumberFormatException();}
+            else id = Integer.parseInt(subdivisionSearch.getText());
+            if(nameSearch.getText().isEmpty())throw  new NumberFormatException();
+            else  name =nameUpd.getText();
+
+
+
+            StackPane secondaryLayout = new StackPane();
+            secondaryLayout.getChildren().add(new Label( String.valueOf(controller.getCountEquipment(name,id))));
+            Scene secondScene = new Scene(secondaryLayout, 260, 130);
+            Stage newWindow = new Stage();
+            newWindow.setScene(secondScene);
+            newWindow.show();
+
+
+
+        }
+        catch (SQLException throwables) {
+            throwables.printStackTrace();
+
+        }
+        catch (NumberFormatException ex){
+
+            excep();
+        }
 
 
     };

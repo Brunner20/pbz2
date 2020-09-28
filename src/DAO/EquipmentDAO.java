@@ -37,10 +37,11 @@ public class EquipmentDAO {
     }
 
     //найти  количество техники по ее название и названию подразделения
-    public int findCountEquipmentByNameAndSubdivision(String equipmentName, String subdivisionName) throws SQLException {
+    public int findCountEquipmentByNameAndSubdivision(String equipmentName, int subdivision) throws SQLException {
         String query ="SELECT count(id) FROM Equipment as eq left join Subdivision as sub on subdivision_id=sub.id"+
-                "where eq.name= '"+equipmentName+"' and sub.name= '"+subdivisionName+"';";
+                "where eq.name= '"+equipmentName+"' and sub.id= "+subdivision+";";
         ResultSet set= util.dbExecuteQuery(query);
+        set.first();
         return set.getInt(0);
 
     }

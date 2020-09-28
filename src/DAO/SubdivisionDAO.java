@@ -32,9 +32,13 @@ public class SubdivisionDAO {
         String query ="select name from (select name,max(count) from (select subdivision.name, count(repairs.id) as count from repairs \n" +
                 "\tleft join equipment on repairs.equipment_number =equipment.number \n" +
                 "\tleft join subdivision on subdivision_id = subdivision.id\n" +
-                "group by subdivision.name) as tab) as t" ;
+                "group by subdivision.name) as tab) as t\n" ;
         ResultSet set= util.dbExecuteQuery(query);
+
+        set.first();
         return set.getString("name");
+
+
 
     }
 
@@ -61,10 +65,10 @@ public class SubdivisionDAO {
         ObservableList<Subdivision> subdivisions = FXCollections.observableArrayList();
 
         while (set.next()){
-            Subdivision equipment =new Subdivision();
-            equipment.setId(set.getInt("id"));
-            equipment.setName(set.getString("name"));
-            subdivisions.add(equipment);
+            Subdivision subdivision =new Subdivision();
+            subdivision.setId(set.getInt("id"));
+            subdivision.setName(set.getString("name"));
+            subdivisions.add(subdivision);
         }
         return subdivisions;
     }

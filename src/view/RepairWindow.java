@@ -19,7 +19,7 @@ import models.Repairs;
 import java.sql.Date;
 import java.sql.SQLException;
 
-//TODO добавить логику на кнопку waybillBtn которая выводит наклыдные к данному ремонту
+
 
 public class RepairWindow {
 
@@ -63,7 +63,7 @@ public class RepairWindow {
         configureAddEmployeePane();
         configureTable();
         configureSearch();
-
+        waybillBtn.setOnAction(waybillHandler);
         add.setOnAction(addEmp);
 
     }
@@ -156,11 +156,8 @@ public class RepairWindow {
 
         table.getColumns().addAll(dateColumn,typeColumn,termColumn,nameGiveColumn,numberGiveColumn,nameTakeColumn,
                 numberTakeColumn,nameFixColumn,positionFixColumn);
-
-
-
-
         table.setPrefSize(720,340);
+
         AnchorPane.setTopAnchor(table,150.0);
         AnchorPane.setLeftAnchor(table,450.0);
         anchorPane.getChildren().addAll(table);
@@ -233,7 +230,23 @@ public class RepairWindow {
 
     };
 
+    private EventHandler<ActionEvent> waybillHandler = e -> {
 
+        int idIn;
+        try {
+            if(id.getText().isEmpty()){ throw  new NumberFormatException();}
+            else idIn = Integer.parseInt(id.getText());
+
+            WaybillTable subdivisionWindow =new WaybillTable(controller.getWaybillByRepair(idIn));
+            Scene scene =new Scene(subdivisionWindow.getAnchorPane(),600,700);
+            Stage newWindow = new Stage();
+            newWindow.setScene(scene);
+            newWindow.show();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    };
 
     private void excep(){
         Label deleted=new Label("введены некорректные данные");

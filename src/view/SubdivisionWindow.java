@@ -14,7 +14,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.Subdivision;
 
-//TODO добавит кнопку для поиска подразделения с самым большим количеством деталей для ремонта
 import java.sql.SQLException;
 
 public class SubdivisionWindow {
@@ -27,6 +26,7 @@ public class SubdivisionWindow {
     private TextField name;
     private Button add;
     private Button delete;
+    private Button getMaxBtn;
 
     public SubdivisionWindow() throws SQLException {
         tableSub = new TableView<>();
@@ -44,6 +44,7 @@ public class SubdivisionWindow {
         configureTable();
         add.setOnAction(addSub);
         delete.setOnAction(delSub);
+        getMaxBtn.setOnAction(getMax);
 
     }
     private  void configureTable(){
@@ -55,11 +56,14 @@ public class SubdivisionWindow {
         idColumn.setPrefWidth(150);
         nameColumn.setPrefWidth(230);
         tableSub.getColumns().addAll(idColumn,nameColumn);
-
         tableSub.setPrefSize(380,300);
+
+        getMaxBtn =new Button("получиать подразделение с макс. кол-вом ремонтом");
+        AnchorPane.setLeftAnchor(getMaxBtn,100.0);
+        AnchorPane.setTopAnchor(getMaxBtn,480.0);
         AnchorPane.setTopAnchor(tableSub,150.0);
         AnchorPane.setLeftAnchor(tableSub,100.0);
-        anchorPane.getChildren().addAll(tableSub);
+        anchorPane.getChildren().addAll(tableSub,getMaxBtn);
     }
 
     private void createTable(ObservableList<Subdivision> subdivisions)  {
@@ -122,6 +126,7 @@ public class SubdivisionWindow {
     };
 
     private void excep(){
+
         Label deleted=new Label("введены некорректные данные");
         StackPane secondaryLayout = new StackPane();
         secondaryLayout.getChildren().add(deleted);
@@ -130,5 +135,26 @@ public class SubdivisionWindow {
         newWindow.setScene(secondScene);
         newWindow.show();
     }
+
+    private final EventHandler<ActionEvent> getMax = e -> {
+
+        try {
+
+            Label deleted=new Label(controller.getSubdivisionWithMaxRepair());
+            StackPane secondaryLayout = new StackPane();
+            secondaryLayout.getChildren().add(deleted);
+            Scene secondScene = new Scene(secondaryLayout, 260, 130);
+            Stage newWindow = new Stage();
+            newWindow.setScene(secondScene);
+            newWindow.show();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+
+        }
+        catch (NumberFormatException ex){
+            excep();
+        }
+    };
 
 }
